@@ -1,45 +1,82 @@
-[gd_scene load_steps=11 format=3 uid="uid://dudhnyhlnowws"]
+[gd_scene load_steps=16 format=3 uid="uid://dudhnyhlnowws"]
 
-[ext_resource type="Script" uid="uid://8d7nhmki4y1d" path="res://Test.cs" id="1_ppyta"]
-[ext_resource type="Script" uid="uid://w0tqkfpqm5pn" path="res://src/spells/SpellAction.cs" id="2_g14j6"]
-[ext_resource type="Script" uid="uid://djeg7obnarswk" path="res://src/spells/actions/SpellPrint.cs" id="3_g14j6"]
-[ext_resource type="Script" path="res://src/spells/actions/SpellCreateMine.cs" id="4_g14j6"]
+[ext_resource type="PackedScene" uid="uid://ceh2womv7n52r" path="res://instanced/Player.tscn" id="1_37kl0"]
+[ext_resource type="Script" uid="uid://dxovam7bqg2b8" path="res://src/world/PlayerSpellLoadout.cs" id="2_8uh7m"]
+[ext_resource type="Script" uid="uid://w0tqkfpqm5pn" path="res://src/spells/SpellAction.cs" id="2_ykrsh"]
+[ext_resource type="Script" uid="uid://d2xjhl2hl0j6q" path="res://src/spells/actions/effects/SpellDamage.cs" id="3_vbegm"]
+[ext_resource type="Script" uid="uid://dqq8gs52q1iy1" path="res://src/spells/actions/SpellCreateNormalProjectile.cs" id="3_ykrsh"]
+[ext_resource type="Script" uid="uid://cfp3kj5fjh82v" path="res://src/spells/actions/SpellCreateAOE.cs" id="4_ehkex"]
 [ext_resource type="Script" uid="uid://82s55ivnkthf" path="res://src/spells/Spell.cs" id="4_vbegm"]
-[ext_resource type="Script" uid="uid://cy8lld6qd5vkf" path="res://src/spells/SpellCastor.cs" id="7_vbegm"]
 
-[sub_resource type="Resource" id="Resource_vbegm"]
-script = ExtResource("3_g14j6")
-output = "HEWO :3"
-metadata/_custom_type_script = ExtResource("3_g14j6")
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8uh7m"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
 
-[sub_resource type="Resource" id="Resource_ehkex"]
-script = ExtResource("4_g14j6")
-projectileVarName = "mine"
+[sub_resource type="Sky" id="Sky_6uqi0"]
+sky_material = SubResource("ProceduralSkyMaterial_8uh7m")
+
+[sub_resource type="Environment" id="Environment_ppyta"]
+background_mode = 2
+sky = SubResource("Sky_6uqi0")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Resource" id="Resource_xersf"]
+script = ExtResource("3_vbegm")
+Damage = 1.0
+metadata/_custom_type_script = ExtResource("3_vbegm")
+
+[sub_resource type="Resource" id="Resource_00tp4"]
+script = ExtResource("4_ehkex")
+projectileVarName = "AOE"
 spawnTarget = "_castor"
-radius = 0.25
-Procs = 2
-MineProcActions = Array[ExtResource("2_g14j6")]([SubResource("Resource_vbegm")])
-metadata/_custom_type_script = ExtResource("4_g14j6")
+AreaLifeTime = 5.0
+EffectApplicationRate = 1.0
+Radius = 5.0
+AffectedTargetsActions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_xersf")])
+OnLifeEndActions = Array[ExtResource("2_ykrsh")]([])
+metadata/_custom_type_script = ExtResource("4_ehkex")
 
-[sub_resource type="Resource" id="Resource_ykrsh"]
+[sub_resource type="Resource" id="Resource_g14j6"]
+script = ExtResource("3_ykrsh")
+projectileVarName = "projectile"
+spawnTarget = "_castor"
+radius = 0.1
+height = 0.5
+lifeTime = 10.0
+speed = 0.1
+Pierce = 1
+OnLifeEndActions = Array[ExtResource("2_ykrsh")]([])
+HitCharacterActions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_00tp4")])
+metadata/_custom_type_script = ExtResource("3_ykrsh")
+
+[sub_resource type="Resource" id="Resource_ppyta"]
 script = ExtResource("4_vbegm")
-spellName = "Example Spell"
-actions = [SubResource("Resource_ehkex")]
+SpellName = "Example Spell"
+Actions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_g14j6")])
 metadata/_custom_type_script = ExtResource("4_vbegm")
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ykrsh"]
+[sub_resource type="Resource" id="Resource_ykrsh"]
+script = ExtResource("2_8uh7m")
+SelectedSet = 0
+SpellL1 = SubResource("Resource_ppyta")
+metadata/_custom_type_script = ExtResource("2_8uh7m")
 
-[node name="Node" type="CharacterBody3D" node_paths=PackedStringArray("LookDirection")]
-script = ExtResource("1_ppyta")
-spell = SubResource("Resource_ykrsh")
-LookDirection = NodePath("LookDir")
-metadata/_custom_type_script = ExtResource("7_vbegm")
+[node name="Test" type="Node3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_ykrsh")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
 
-[node name="LookDir" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ppyta")
 
-[node name="Camera3D" type="Camera3D" parent="LookDir"]
-current = true
+[node name="Player" parent="." instance=ExtResource("1_37kl0")]
+Loadout = SubResource("Resource_ykrsh")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+size = Vector3(50, 1, 50)

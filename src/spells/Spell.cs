@@ -3,17 +3,30 @@ using Godot.Collections;
 
 namespace Magicrime.Spells;
 
+[Tool]
 [GlobalClass]
 public partial class Spell : Resource
 {
 	[Signal]
 	public delegate void CompilationFailedEventHandler(Error error);
 
+	private string spellName = "Example Spell";
+	
 	[Export]
-	public string spellName = "Example Spell";
+	public string SpellName
+	{
+		get => spellName;
+		set => spellName = value;
+	}
+
+	private Array<SpellAction> actions = [];
 
 	[Export]
-	public Array<SpellAction> actions = [];
+	public Array<SpellAction> Actions
+	{
+		get => actions;
+		set => actions = value;
+	}
 
 	const string SPELL_BASE = """
 	extends Node
@@ -45,6 +58,8 @@ public partial class Spell : Resource
 
 	public Script CompileSpell()
 	{
+		if(Engine.IsEditorHint()) return null;
+
 		string spellCode = SPELL_BASE;
 		foreach(SpellAction act in actions)
 		{
@@ -52,7 +67,7 @@ public partial class Spell : Resource
 			spellCode += act.GenerateGDScript(1) + '\n';
 		}
 		spellCode += SPELL_END;
-		GD.Print(spellCode);
+		if(OS.IsStdOutVerbose()) GD.Print($"Made spell code: \"\"\"\n{spellCode}\n\"\"\"");
 		GDScript script = new()
 		{
 			SourceCode = spellCode

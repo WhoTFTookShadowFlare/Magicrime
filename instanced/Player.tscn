@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceh2womv7n52r"]
+
+[ext_resource type="Script" uid="uid://00qmrikpe0te" path="res://src/world/Player.cs" id="1_7apah"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qahwe"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ManaDisp", "HealthDisp", "LookDirection")]
+script = ExtResource("1_7apah")
+ManaDisp = NodePath("Camera3D/HUD/Mana")
+HealthDisp = NodePath("Camera3D/HUD/Health")
+LookDirection = NodePath("Camera3D")
+metadata/_custom_type_script = ExtResource("1_7apah")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_qahwe")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="HUD" type="Control" parent="Camera3D"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Health" type="ProgressBar" parent="Camera3D/HUD"]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 32.0
+value = 100.0
+
+[node name="Mana" type="ProgressBar" parent="Camera3D/HUD"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 256.0
+offset_bottom = 64.0
+value = 100.0

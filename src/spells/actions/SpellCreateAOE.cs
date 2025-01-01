@@ -56,14 +56,12 @@ public partial class SpellCreateAOE : SpellAction
 			foreach(SpellAction spellAct in AffectedTargetsActions)
 				if(spellAct is not null)
 					affectedTargetScript += $"{spellAct.GenerateGDScript(indentation + 1)}\n";
-		else
-			affectedTargetScript += $"{linePrefix}\tpass";
+		affectedTargetScript += $"{linePrefix}\tpass\n";
 		
 		if(OnLifeEndActions.Count > 0)
 			foreach(SpellAction spellAct in OnLifeEndActions)
 				lifeEndActionScript += $"{spellAct.GenerateGDScript(indentation + 1)}\n";
-		else
-			lifeEndActionScript += $"{linePrefix}\tpass";
+		lifeEndActionScript += $"{linePrefix}\tpass\n";
 
 		return $"{linePrefix}var {projectileVarName} := AOEProjectile.new()\n"
 		+ $"{linePrefix}{spawnTarget}.add_sibling.call_deferred({projectileVarName})\n"
@@ -72,7 +70,7 @@ public partial class SpellCreateAOE : SpellAction
 		+ $"{linePrefix}{projectileVarName}.EffectApplicationRate = {EffectApplicationRate}\n"
 		+ $"{linePrefix}{projectileVarName}.EffectRadius = {Radius}\n"
 		+ $"{linePrefix}{projectileVarName}.ApplyAffectToTarget.connect({affectedTargetScript})\n"
-		+ $"{linePrefix}{projectileVarName}.LifeSpanEnded.connect({lifeEndActionScript}\n{linePrefix})";
+		+ $"{linePrefix}{projectileVarName}.LifeSpanEnded.connect({lifeEndActionScript}{linePrefix})\n";
 	}
 
 	public override int GetComplexity()

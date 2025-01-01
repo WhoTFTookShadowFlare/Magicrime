@@ -40,15 +40,14 @@ public sealed partial class SpellCreateMine : SpellAction
 			foreach(SpellAction spellAct in MineProcActions)
 				if(spellAct is not null)
 					procActionScript += $"{spellAct.GenerateGDScript(indentation + 1)}\n";
-		else
-			procActionScript += $"{linePrefix}\tpass";
+		procActionScript += $"{linePrefix}\tpass\n";
 
 		return $"{linePrefix}var {projectileVarName} := MineProjectile.new()\n"
 		+ $"{linePrefix}{spawnTarget}.add_sibling.call_deferred({projectileVarName})\n"
 		+ $"{linePrefix}{projectileVarName}.position = {spawnTarget}.position\n"
 		+ $"{linePrefix}{projectileVarName}.Radius = {radius}\n"
 		+ $"{linePrefix}{projectileVarName}.RemainingProcs = {procs}\n"
-		+ $"{linePrefix}{projectileVarName}.MineProc.connect({procActionScript})\n";
+		+ $"{linePrefix}{projectileVarName}.MineProc.connect({procActionScript}{linePrefix})\n";
 	}
 
 	public override int GetComplexity()
