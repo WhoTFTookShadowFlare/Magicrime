@@ -38,7 +38,8 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 
 		if(OnLifeEndActions.Count > 0)
 			foreach(SpellAction spellAct in OnLifeEndActions)
-				lifeEndActionScript += $"{spellAct.GenerateGDScript(indentation + 1)}\n";
+				if(spellAct is not null)
+					lifeEndActionScript += $"{spellAct.GenerateGDScript(indentation + 1)}\n";
 		else
 			lifeEndActionScript += $"{linePrefix}\tpass";
 
@@ -49,7 +50,7 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 		+ $"{linePrefix}\t{projectileVarName}.Velocity = _castor.GetLookDirection() * {speed}\n"
 		+ $"{linePrefix}else:\n"
 		+ $"{linePrefix}\t{projectileVarName}.position = {spawnTarget}.position\n"
-		+ $"{linePrefix}\tif \"Velocity\" in {spawnTarget}: {projectileVarName}.Velocity = {spawnTarget}.Velocity\n"
+		+ $"{linePrefix}\t{projectileVarName}.Velocity = {spawnTarget}.Velocity\n"
 		+ $"{linePrefix}{projectileVarName}.Radius = {radius}\n"
 		+ $"{linePrefix}{projectileVarName}.Height = {height}\n"
 		+ $"{linePrefix}{projectileVarName}.LifeTimeRem = {lifeTime}\n"

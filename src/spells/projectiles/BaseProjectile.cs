@@ -2,16 +2,21 @@ using Godot;
 
 namespace Magicrime.Spells.Projectile;
 
-// TODO: Projectile types:
-//			- mine
-//			- aoe
-//			- explosive (aoe/frag)
 
 [GlobalClass]
 public abstract partial class BaseProjectile : Area3D
 {
 	private float lifeTimeRem = 0.0f;
 	
+	private Vector3 velo;
+
+	[Export]
+	public Vector3 Velocity
+	{
+		get => velo;
+		set => velo = value;
+	}
+
 	[Export]
 	public float LifeTimeRem
 	{

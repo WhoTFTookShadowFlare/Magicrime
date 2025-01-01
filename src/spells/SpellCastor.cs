@@ -14,6 +14,18 @@ public partial class SpellCastor : CharacterBody3D
 	[Export]
 	private float mana = 100.0f;
 
+	[Export]
+	private float maxHealth = 100.0f;
+
+	private float health = 100.0f;
+
+	[Export]
+	public float Health
+	{
+		get => health;
+		set => health = value;
+	}
+
 	public Vector3 GetLookDirection()
 	{
 		return new Vector3(0, 0, -1)

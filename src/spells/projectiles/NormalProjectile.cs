@@ -5,15 +5,7 @@ namespace Magicrime.Spells.Projectile;
 [GlobalClass]
 public partial class NormalProjectile : BaseProjectile
 {
-	private Vector3 velo;
-
-	[Export]
-	public Vector3 Velocity
-	{
-		get => velo;
-		set => velo = value;
-	}
-
+	
 	private float radius = 0.1f;
 	private float height = 0.5f;
 
@@ -48,6 +40,6 @@ public partial class NormalProjectile : BaseProjectile
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		Position += velo;
+		Position += Velocity;
 	}
 }
