@@ -25,6 +25,8 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 	[Export]
 	public float speed = 1.0f;
 
+	private float gravity = 0.0f;
+
 	private int pierce = 1;
 
 	[Export]
@@ -32,6 +34,13 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 	{
 		get => pierce;
 		set => pierce = Mathf.Max(1, value);
+	}
+
+	[Export]
+	public float Gravity
+	{
+		get => gravity;
+		set => gravity = Mathf.Max(0.0f, value);
 	}
 
 	[Export]
@@ -43,7 +52,7 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 	public override string GenerateGDScript(int indentation)
 	{
 		string hitCharacterActionScript = """
-		func(who: SpellCastor):
+		func(_who: SpellCastor):
 
 		""";
 
@@ -79,6 +88,7 @@ public sealed partial class SpellCreateNormalProjectile : SpellAction
 		+ $"{linePrefix}{projectileVarName}.Height = {height}\n"
 		+ $"{linePrefix}{projectileVarName}.Pierce = {pierce}\n"
 		+ $"{linePrefix}{projectileVarName}.LifeTimeRem = {lifeTime}\n"
+		+ $"{linePrefix}{projectileVarName}.ProjGravity = {gravity}\n"
 		+ $"{linePrefix}{projectileVarName}.LifeSpanEnded.connect({lifeEndActionScript}{linePrefix})\n"
 		+ $"{linePrefix}{projectileVarName}.HitCharacter.connect({hitCharacterActionScript}{linePrefix})\n";
 	}

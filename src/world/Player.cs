@@ -108,8 +108,11 @@ public sealed partial class Player : SpellCastor
 			else 
 			if(Input.IsActionPressed("spell_right") && loadout.GetRightSpell() is not null)
 			{
-				spellNodes[loadout.GetRightSpell()].Call("_exec_spell", this);
-				ApplyCastDelay();
+				if(Mathf.IsZeroApprox(UseMana(loadout.GetRightSpell().GetManaCost())))
+				{
+					spellNodes[loadout.GetRightSpell()].Call("_exec_spell", this);
+					ApplyCastDelay();
+				}
 			}
 	}
 

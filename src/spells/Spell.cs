@@ -7,6 +7,8 @@ namespace Magicrime.Spells;
 [GlobalClass]
 public partial class Spell : Resource
 {
+	public const string SPELL_DIR = "user://spells";
+
 	[Signal]
 	public delegate void CompilationFailedEventHandler(Error error);
 

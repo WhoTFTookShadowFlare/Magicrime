@@ -30,7 +30,7 @@ public sealed partial class SpellCreateMine : SpellAction
 	public override string GenerateGDScript(int indentation)
 	{
 		string procActionScript = """
-		func(who: SpellCastor):
+		func(_who: SpellCastor):
 
 		""";
 

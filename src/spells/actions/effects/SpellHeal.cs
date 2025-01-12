@@ -4,20 +4,20 @@ namespace Magicrime.Spells.Actions.CastorEffects;
 
 [Tool]
 [GlobalClass]
-public partial class SpellDamage : SpellAction
+public partial class SpellHeal : SpellAction
 {
-	private float damage = 1.0f;
+	private float amount = 1.0f;
 
 	[Export]
-	public float Damage
+	public float Amount
 	{
-		get => damage;
-		set => damage = Mathf.Max(1.0f, value);
+		get => amount;
+		set => amount = Mathf.Max(1.0f, value);
 	}
 
 	public override string GenerateGDScript(int indentation)
 	{
-		return $"{new string('\t', indentation)}_who.Health -= {damage}\n";
+		return $"{new string('\t', indentation)}_who.Health += {amount}\n";
 	}
 
 	public override int GetComplexity()
@@ -27,6 +27,6 @@ public partial class SpellDamage : SpellAction
 
 	public override float GetManaCost()
 	{
-		return damage * 10.0f;
+		return amount * 20.0f;
 	}
 }

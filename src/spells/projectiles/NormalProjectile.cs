@@ -13,6 +13,8 @@ public partial class NormalProjectile : BaseProjectile
 
 	private SpellCastor ignored;
 
+	private float projGravity = 0.0f;
+
 	[Export]
 	public float Radius
 	{
@@ -41,6 +43,13 @@ public partial class NormalProjectile : BaseProjectile
 		set => ignored = value;
 	}
 
+	[Export]
+	public float ProjGravity
+	{
+		get => projGravity;
+		set => projGravity = value;
+	}
+
 	[Signal]
 	public delegate void HitCharacterEventHandler(SpellCastor castor);
 
@@ -65,7 +74,8 @@ public partial class NormalProjectile : BaseProjectile
 			{
 				Radius = Radius,
 				Height = Height
-			}
+			},
+			Rotation = new(90, 0, 0)
 		};
 		AddChild(shape3D);
 
@@ -75,6 +85,11 @@ public partial class NormalProjectile : BaseProjectile
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		Position += Velocity;
+		Vector3 velo = Velocity;
+		velo.Y -= projGravity * (float) delta;
+		Velocity = velo;
+		Position += Velocity * (float) delta;
+
+		if(!Velocity.IsZeroApprox() && !Vector3.Up.Cross(Velocity).IsZeroApprox()) LookAtFromPosition(Position, Position + Velocity);
 	}
 }

@@ -1,5 +1,6 @@
 using Godot;
-using Magicrime.Spells;
+
+namespace Magicrime.Spells.Actions;
 
 [GlobalClass]
 public sealed partial class SpellComment : SpellAction

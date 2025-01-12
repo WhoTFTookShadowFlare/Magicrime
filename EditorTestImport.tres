@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=7 format=3 uid="uid://dwrcguym8xcgw"]
+
+[ext_resource type="Script" uid="uid://w0tqkfpqm5pn" path="res://src/spells/SpellAction.cs" id="1_kju04"]
+[ext_resource type="Script" uid="uid://82s55ivnkthf" path="res://src/spells/Spell.cs" id="2_71f1b"]
+[ext_resource type="Script" uid="uid://d2xjhl2hl0j6q" path="res://src/spells/actions/effects/SpellDamage.cs" id="2_fy1ac"]
+[ext_resource type="Script" uid="uid://dqq8gs52q1iy1" path="res://src/spells/actions/SpellCreateNormalProjectile.cs" id="3_wvhkm"]
+
+[sub_resource type="Resource" id="Resource_e7bna"]
+script = ExtResource("2_fy1ac")
+Damage = 2.5
+metadata/_custom_type_script = ExtResource("2_fy1ac")
+
+[sub_resource type="Resource" id="Resource_yquhn"]
+script = ExtResource("3_wvhkm")
+projectileVarName = "projectile"
+spawnTarget = "_castor"
+radius = 0.1
+height = 0.5
+lifeTime = 30.0
+speed = 1.0
+Pierce = 2
+Gravity = 0.0
+OnLifeEndActions = Array[ExtResource("1_kju04")]([])
+HitCharacterActions = Array[ExtResource("1_kju04")]([SubResource("Resource_e7bna")])
+metadata/_custom_type_script = ExtResource("3_wvhkm")
+
+[resource]
+script = ExtResource("2_71f1b")
+SpellName = "Editor Import Test"
+Actions = Array[ExtResource("1_kju04")]([SubResource("Resource_yquhn")])
+metadata/_custom_type_script = ExtResource("2_71f1b")

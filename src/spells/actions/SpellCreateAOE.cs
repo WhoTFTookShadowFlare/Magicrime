@@ -9,6 +9,8 @@ public partial class SpellCreateAOE : SpellAction
 	private float areaLifeTime = 5.0f;
 	private float effectApplicationRate = 1.0f;
 
+	private float radius = 5.0f;
+
 	[Export]
 	public string projectileVarName = "AOE";
 
@@ -30,7 +32,11 @@ public partial class SpellCreateAOE : SpellAction
 	}
 
 	[Export]
-	public float Radius = 5.0f;
+	public float Radius
+	{
+		get => radius;
+		set => radius = Mathf.Max(0.1f, value);
+	}
 
 	[Export]
 	public Array<SpellAction> AffectedTargetsActions = [];
@@ -41,7 +47,7 @@ public partial class SpellCreateAOE : SpellAction
 	public override string GenerateGDScript(int indentation)
 	{
 		string affectedTargetScript = """
-		func(who: SpellCastor):
+		func(_who: SpellCastor):
 
 		""";
 

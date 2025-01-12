@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dudhnyhlnowws"]
+[gd_scene load_steps=20 format=3 uid="uid://dudhnyhlnowws"]
 
 [ext_resource type="PackedScene" uid="uid://ceh2womv7n52r" path="res://instanced/Player.tscn" id="1_37kl0"]
 [ext_resource type="Script" uid="uid://dxovam7bqg2b8" path="res://src/world/PlayerSpellLoadout.cs" id="2_8uh7m"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dqq8gs52q1iy1" path="res://src/spells/actions/SpellCreateNormalProjectile.cs" id="3_ykrsh"]
 [ext_resource type="Script" uid="uid://cfp3kj5fjh82v" path="res://src/spells/actions/SpellCreateAOE.cs" id="4_ehkex"]
 [ext_resource type="Script" uid="uid://82s55ivnkthf" path="res://src/spells/Spell.cs" id="4_vbegm"]
+[ext_resource type="Script" uid="uid://kc6xar825ll2" path="res://src/spells/actions/effects/SpellHeal.cs" id="7_ehkex"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8uh7m"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -29,7 +30,7 @@ metadata/_custom_type_script = ExtResource("3_vbegm")
 [sub_resource type="Resource" id="Resource_00tp4"]
 script = ExtResource("4_ehkex")
 projectileVarName = "AOE"
-spawnTarget = "_castor"
+spawnTarget = "projectile"
 AreaLifeTime = 5.0
 EffectApplicationRate = 1.0
 Radius = 5.0
@@ -44,8 +45,9 @@ spawnTarget = "_castor"
 radius = 0.1
 height = 0.5
 lifeTime = 10.0
-speed = 0.1
+speed = 1.0
 Pierce = 1
+Gravity = 1.0
 OnLifeEndActions = Array[ExtResource("2_ykrsh")]([])
 HitCharacterActions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_00tp4")])
 metadata/_custom_type_script = ExtResource("3_ykrsh")
@@ -56,10 +58,33 @@ SpellName = "Example Spell"
 Actions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_g14j6")])
 metadata/_custom_type_script = ExtResource("4_vbegm")
 
+[sub_resource type="Resource" id="Resource_77dp3"]
+script = ExtResource("7_ehkex")
+Amount = 20.0
+metadata/_custom_type_script = ExtResource("7_ehkex")
+
+[sub_resource type="Resource" id="Resource_5tkv4"]
+script = ExtResource("4_ehkex")
+projectileVarName = "AOE"
+spawnTarget = "_castor"
+AreaLifeTime = 0.0166667
+EffectApplicationRate = 0.0166667
+Radius = 0.1
+AffectedTargetsActions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_77dp3")])
+OnLifeEndActions = Array[ExtResource("2_ykrsh")]([])
+metadata/_custom_type_script = ExtResource("4_ehkex")
+
+[sub_resource type="Resource" id="Resource_0m0f1"]
+script = ExtResource("4_vbegm")
+SpellName = "Example Spell"
+Actions = Array[ExtResource("2_ykrsh")]([SubResource("Resource_5tkv4")])
+metadata/_custom_type_script = ExtResource("4_vbegm")
+
 [sub_resource type="Resource" id="Resource_ykrsh"]
 script = ExtResource("2_8uh7m")
 SelectedSet = 0
 SpellL1 = SubResource("Resource_ppyta")
+SpellR2 = SubResource("Resource_0m0f1")
 metadata/_custom_type_script = ExtResource("2_8uh7m")
 
 [node name="Test" type="Node3D"]

@@ -11,15 +11,21 @@ config_version=5
 [application]
 
 config/name="Magicrime"
-config/tags=PackedStringArray("level_based", "multiplayer", "rpg")
+config/tags=PackedStringArray("level_based_progression", "multiplayer", "rpg")
 run/main_scene="uid://dkhgot6wayju1"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SpellImporter="*res://src/spells/SpellImporter.cs"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=800
+window/subwindows/embed_subwindows=false
+display_server/driver.linuxbsd="wayland"
 
 [dotnet]
 
